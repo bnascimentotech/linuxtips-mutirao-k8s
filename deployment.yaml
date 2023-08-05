@@ -1,0 +1,54 @@
+# Desafio da live 4 do Mutirao do Kubernetes - 13/06/2023
+
+#
+# O nosso objetivo aqui é fazer a instalação do Nginx!
+# 
+# Atenção!
+# Corrija todos os erros encontrados e realize o deploy do Nginx utilizando o arquivo deployment.yaml.
+# 
+# Tarefas
+# 1. Utilize o arquivo /root/deployment.yaml para realizar o deploy do nosso Deployment;
+# 2. Corrija todos os erros;
+# 3. Configure o limite de utilização de recursos da seguinte maneira:
+# 
+#   Requests:
+#   * 64Mi de Memória;
+#   * 0.5 de CPU;
+# 
+#   Limits:
+#   * 128 Mi de Memória;
+#   * 0.7 de CPU;
+# 
+# 4. Use a estratégia de atualização do Deployment que atualiza todos os pods de uma vez;
+# 5. A versão do Nginx deve ser a 1.16.0.
+#  
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-girus
+  labels:
+    app: nginx-girus
+    opa: sensacional-juvenal
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: nginx-girus
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nginx-girus
+    spec:
+      containers:
+      - image: nginx:1.16.0
+        name: nginx
+        resources:
+          limits:
+             cpu: 0.7
+             memory: 128Mi
+          requests:
+             cpu: 0.5
+             memory: 64Mi
